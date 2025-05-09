@@ -2,6 +2,7 @@ package net.rainy.chestmod.event;
 
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraftforge.client.event.ScreenEvent;
 import net.rainy.chestmod.ChestMod;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -15,21 +16,30 @@ import net.minecraft.world.effect.MobEffects;
 import net.minecraft.world.entity.animal.Sheep;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.client.Minecraft;
+import net.rainy.chestmod.CustomChestMenu;
+import net.rainy.chestmod.CustomChestScreen;
 
 @Mod.EventBusSubscriber(modid = ChestMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
     @SubscribeEvent
-    public static void onScreenOpen(ContainerScreenEvent event) {
+    public static void onScreenOpen(ScreenEvent.Opening event) {
         // might need to intercept Opening ScreenEvent instead ??? NVM ITS THE CORRECT EVENT!!!
         //Minecraft.getInstance().player.displayClientMessage(Component.literal("opened chest 1"), false);
         // wtf is pActionBar ???
         // a screen is an array of menus???
-        if (event.getContainerScreen() instanceof ContainerScreen screen) {
+        if (event.getScreen() instanceof ContainerScreen screen) {
             ChestMenu menu = screen.getMenu();
             Inventory playerInventory = Minecraft.getInstance().player.getInventory();
             Component title = screen.getTitle();
             Minecraft.getInstance().player.displayClientMessage(Component.literal("opened chest 2"), false);
-            //screen.new CustomChestScreen(menu, playerInventory, title));
+
+            // Cancel the original screen
+            event.setCanceled(true);
+
+            // Open your custom one
+            CustomChestMenu customMenu = CustomChestMenu.fromVanilla(menu, playerInventory);
+            CustomChestScreen customScreen = new CustomChestScreen(customMenu, playerInventory, title);
+            //Minecraft.getInstance().setScreen(customScreen);
         }
     }
 

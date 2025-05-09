@@ -19,8 +19,13 @@ public class CustomChestMenu extends ChestMenu {
     }
 
     public CustomChestMenu(int pContainerId, Inventory inv, Container pContainer) {
-        super(ModMenuTypes.CUSTOM_CHEST_MENU.get(), pContainerId, inv, pContainer, 4);
+        super(MenuType.GENERIC_9x3, pContainerId, inv, pContainer, 3);
 
+    }
+
+    public static CustomChestMenu fromVanilla(ChestMenu vanillaMenu, Inventory playerInventory) {
+        Container container = vanillaMenu.getContainer(); // Grab the chest inventory
+        return new CustomChestMenu(vanillaMenu.containerId, playerInventory, container);
     }
 
     private static Container getContainerFromBuf(FriendlyByteBuf extraData) {
