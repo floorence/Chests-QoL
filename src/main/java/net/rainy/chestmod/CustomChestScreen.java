@@ -27,18 +27,10 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
     protected void renderBg(GuiGraphics pGuiGraphics, float pPartialTick, int pMouseX, int pMouseY) {
         RenderSystem.setShaderTexture(0, TEXTURE);
         RenderSystem.setShaderColor(1.0F, 1.0F, 1.0F, 1.0F);
-        RenderSystem.setShaderTexture(0, TEXTURE);
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-        pGuiGraphics.blit(
-                resource -> RenderType.text(resource),
-                TEXTURE,
-                x, y,    // screen position
-                0f, 0f,  // U, V coords in texture (top left)
-                imageWidth, imageHeight,  // how much to draw
-                256, 256   // total size of texture
-        );
+        pGuiGraphics.blitInscribed(TEXTURE, x, y, imageWidth, imageHeight, 256, 256);
     }
 
     @Override
@@ -59,5 +51,6 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
     private void onLootAllPressed() {
         Minecraft.getInstance().player.displayClientMessage(Component.literal("Looted all!"), false);
+        //this.getMenu().lootAll();
     }
 }

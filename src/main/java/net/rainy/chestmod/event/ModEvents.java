@@ -39,7 +39,7 @@ public class ModEvents {
             // Open your custom one
             CustomChestMenu customMenu = CustomChestMenu.fromVanilla(menu, playerInventory);
             CustomChestScreen customScreen = new CustomChestScreen(customMenu, playerInventory, title);
-            //Minecraft.getInstance().setScreen(customScreen);
+            Minecraft.getInstance().setScreen(customScreen);
         }
     }
 

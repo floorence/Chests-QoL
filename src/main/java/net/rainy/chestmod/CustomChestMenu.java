@@ -4,6 +4,7 @@ package net.rainy.chestmod;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.world.Container;
+import net.minecraft.world.item.ItemStack;
 import net.rainy.chestmod.ModMenuTypes;
 
 import net.minecraft.network.FriendlyByteBuf;
@@ -26,6 +27,19 @@ public class CustomChestMenu extends ChestMenu {
     public static CustomChestMenu fromVanilla(ChestMenu vanillaMenu, Inventory playerInventory) {
         Container container = vanillaMenu.getContainer(); // Grab the chest inventory
         return new CustomChestMenu(vanillaMenu.containerId, playerInventory, container);
+    }
+
+    public void lootAll() {
+        for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
+            ItemStack stack = this.getContainer().getItem(i);
+            // need to handle case where u loot a stack but already have the stack in ur inventory
+            if (!stack.isEmpty()) {
+                boolean worked = Minecraft.getInstance().player.getInventory().add(stack.copy());
+                if (worked) {
+                    this.getContainer().setItem(i, ItemStack.EMPTY);
+                }
+            }
+        }
     }
 
     private static Container getContainerFromBuf(FriendlyByteBuf extraData) {
