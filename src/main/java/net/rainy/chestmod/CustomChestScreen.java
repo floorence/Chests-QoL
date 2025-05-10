@@ -19,7 +19,7 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
     public CustomChestScreen(CustomChestMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        this.imageWidth = 194;
+        this.imageWidth = 198;
         this.imageHeight = 167;
     }
 
@@ -30,7 +30,15 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
-        pGuiGraphics.blitInscribed(TEXTURE, x, y, imageWidth, imageHeight, 256, 256);
+        //pGuiGraphics.blitInscribed(TEXTURE, x, y, imageWidth, imageHeight, 198, 167);
+        pGuiGraphics.blit(
+                RenderType::guiTextured,
+                TEXTURE,
+                x, y,
+                0f, 0f,
+                imageWidth, imageHeight,
+                256, 256
+        );
     }
 
     @Override
@@ -44,13 +52,25 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
                         Component.literal("Loot"),
                         button -> onLootAllPressed()
                 )
-                .pos(x + 120, y + 20)
+                .pos(x + 172, y + 54)
+                .size(40, 20)
+                .build());
+
+        this.addRenderableWidget(Button.builder(
+                        Component.literal("Stack"),
+                        button -> onStackPressed()
+                )
+                .pos(x + 172, y + 86)
                 .size(40, 20)
                 .build());
     }
 
     private void onLootAllPressed() {
         Minecraft.getInstance().player.displayClientMessage(Component.literal("Looted all!"), false);
-        //this.getMenu().lootAll();
+        this.getMenu().lootAll();
+    }
+
+    private void onStackPressed() {
+
     }
 }
