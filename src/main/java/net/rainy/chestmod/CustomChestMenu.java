@@ -17,11 +17,12 @@ public class CustomChestMenu extends ChestMenu {
 
     public CustomChestMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, getContainerFromBuf(extraData));
+        //System.out.println("constructor 1");
     }
 
     public CustomChestMenu(int pContainerId, Inventory inv, Container pContainer) {
-        super(MenuType.GENERIC_9x3, pContainerId, inv, pContainer, 3);
-
+        super(ModMenuTypes.CUSTOM_CHEST_MENU.get(), pContainerId, inv, pContainer, pContainer.getContainerSize()/9);
+        //System.out.println("constructor 2");
     }
 
     public static CustomChestMenu fromVanilla(ChestMenu vanillaMenu, Inventory playerInventory) {

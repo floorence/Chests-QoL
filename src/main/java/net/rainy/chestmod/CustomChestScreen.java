@@ -19,6 +19,7 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
     public CustomChestScreen(CustomChestMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
+        //System.out.println("constructor screen");
         this.imageWidth = 198;
         this.imageHeight = 167;
     }

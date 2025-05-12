@@ -1,8 +1,18 @@
 package net.rainy.chestmod.event;
 
 import net.minecraft.client.gui.screens.inventory.ContainerScreen;
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.world.Container;
+import net.minecraft.world.SimpleMenuProvider;
 import net.minecraft.world.inventory.ChestMenu;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraft.world.level.block.state.BlockState;
 import net.minecraftforge.client.event.ScreenEvent;
+import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.rainy.chestmod.ChestMod;
 import net.minecraftforge.client.event.ContainerScreenEvent;
 import net.minecraftforge.event.entity.living.LivingDamageEvent;
@@ -22,26 +32,31 @@ import net.rainy.chestmod.CustomChestScreen;
 @Mod.EventBusSubscriber(modid = ChestMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
     @SubscribeEvent
-    public static void onScreenOpen(ScreenEvent.Opening event) {
-        // might need to intercept Opening ScreenEvent instead ??? NVM ITS THE CORRECT EVENT!!!
-        //Minecraft.getInstance().player.displayClientMessage(Component.literal("opened chest 1"), false);
-        // wtf is pActionBar ???
-        // a screen is an array of menus???
-        if (event.getScreen() instanceof ContainerScreen screen) {
-            ChestMenu menu = screen.getMenu();
-            Inventory playerInventory = Minecraft.getInstance().player.getInventory();
-            Component title = screen.getTitle();
-            Minecraft.getInstance().player.displayClientMessage(Component.literal("opened chest 2"), false);
+    public static void onChestInteract(PlayerInteractEvent.RightClickBlock event) {
+        if (event.getLevel().isClientSide()) return; // only handle on the server
 
-            // Cancel the original screen
+        BlockPos pos = event.getPos();
+        BlockState clickedBlock = event.getLevel().getBlockState(pos);
+
+        if (clickedBlock.getBlock() instanceof ChestBlock) {
+            // Cancel the default chest opening
             event.setCanceled(true);
 
-            // Open your custom one
-            CustomChestMenu customMenu = CustomChestMenu.fromVanilla(menu, playerInventory);
-            CustomChestScreen customScreen = new CustomChestScreen(customMenu, playerInventory, title);
-            Minecraft.getInstance().setScreen(customScreen);
+            Player player = event.getEntity(); // This is the player who clicked
+            player.displayClientMessage(Component.literal("opened chest"), false);
+
+            BlockEntity blockEntity = event.getLevel().getBlockEntity(pos);
+            if (blockEntity instanceof ChestBlockEntity chestBlockEntity) {
+                player.displayClientMessage(Component.literal("opening menu"), false);
+                ((ServerPlayer) player).openMenu(new SimpleMenuProvider(
+                        (containerId, playerInv, playerEntity) ->
+                                new CustomChestMenu(containerId, playerInv, chestBlockEntity),
+                        Component.literal("Chest")
+                ), pos);
+            }
         }
     }
+
 
     @SubscribeEvent
     public static void onLivingDamage(LivingDamageEvent event) {
