@@ -1,29 +1,37 @@
-package net.rainy.chestmod;
+package net.rainy.chestmod.screen;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.components.Button;
-import net.minecraft.client.gui.components.Button.Builder;
+import net.minecraft.client.gui.components.ImageButton;
+import net.minecraft.client.gui.components.WidgetSprites;
 import net.minecraft.client.renderer.RenderType;
-import net.rainy.chestmod.ChestMod;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.minecraft.client.gui.GuiGraphics;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.rainy.chestmod.ChestMod;
 import net.rainy.chestmod.network.PacketHandler;
 import net.rainy.chestmod.network.SLootAllPacket;
 
 public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> {
-    private static final ResourceLocation TEXTURE =
-            ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
+    private static ResourceLocation TEXTURE;
+    private static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/icons.png");
+    private int iconsY;
 
     public CustomChestScreen(CustomChestMenu menu, Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
-        //System.out.println("constructor screen");
-        this.imageWidth = 198;
-        this.imageHeight = 167;
+        this.imageWidth = 197;
+        if (menu.isDoubleChest()) {
+            this.imageHeight = 221;
+            this.inventoryLabelY = this.imageHeight - 94;
+            TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest_large.png");
+        } else {
+            this.imageHeight = 166;
+            TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
+        }
+        this.iconsY = this.imageHeight - 112;
     }
 
     @Override
@@ -51,20 +59,21 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
         int x = (width - imageWidth) / 2;
         int y = (height - imageHeight) / 2;
 
+        //TODO: use icons instead of text
         this.addRenderableWidget(Button.builder(
                         Component.literal("Loot"),
                         button -> onLootAllPressed()
                 )
-                .pos(x + 172, y + 54)
-                .size(40, 20)
+                .pos(x + 172, y + iconsY)
+                .size(20, 20)
                 .build());
 
         this.addRenderableWidget(Button.builder(
                         Component.literal("Stack"),
                         button -> onStackPressed()
                 )
-                .pos(x + 172, y + 86)
-                .size(40, 20)
+                .pos(x + 172, y + iconsY + 32)
+                .size(20, 20)
                 .build());
     }
 

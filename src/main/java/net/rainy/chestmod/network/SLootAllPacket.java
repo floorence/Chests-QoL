@@ -1,10 +1,9 @@
 package net.rainy.chestmod.network;
 
-import net.minecraft.core.BlockPos;
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
-import net.rainy.chestmod.CustomChestMenu;
+import net.rainy.chestmod.screen.CustomChestMenu;
 
 public class SLootAllPacket {
     //private final BlockPos pos;
