@@ -27,6 +27,7 @@ import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.minecraftforge.registries.DeferredRegister;
 import net.minecraftforge.registries.ForgeRegistries;
 import net.minecraftforge.registries.RegistryObject;
+import net.rainy.chestmod.network.PacketHandler;
 import org.slf4j.Logger;
 
 // The value here should match an entry in the META-INF/mods.toml file
@@ -54,6 +55,9 @@ public class ChestMod {
 
     private void commonSetup(final FMLCommonSetupEvent event) {
         // Some common setup code
+        event.enqueueWork(() -> {
+            PacketHandler.register();
+        });
     }
 
     // You can use SubscribeEvent and let the Event Bus discover methods to call

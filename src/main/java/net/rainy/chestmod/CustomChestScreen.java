@@ -12,6 +12,8 @@ import net.minecraft.client.renderer.GameRenderer;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
+import net.rainy.chestmod.network.PacketHandler;
+import net.rainy.chestmod.network.SLootAllPacket;
 
 public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> {
     private static final ResourceLocation TEXTURE =
@@ -68,7 +70,7 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
     private void onLootAllPressed() {
         Minecraft.getInstance().player.displayClientMessage(Component.literal("Looted all!"), false);
-        this.getMenu().lootAll();
+        PacketHandler.sendToServer(new SLootAllPacket());
     }
 
     private void onStackPressed() {

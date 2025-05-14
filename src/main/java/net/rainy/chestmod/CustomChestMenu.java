@@ -3,6 +3,7 @@ package net.rainy.chestmod;
 
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
 import net.rainy.chestmod.ModMenuTypes;
@@ -30,12 +31,12 @@ public class CustomChestMenu extends ChestMenu {
         return new CustomChestMenu(vanillaMenu.containerId, playerInventory, container);
     }
 
-    public void lootAll() {
+    public void lootAll(ServerPlayer player) {
         for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
             ItemStack stack = this.getContainer().getItem(i);
             // need to handle case where u loot a stack but already have the stack in ur inventory
             if (!stack.isEmpty()) {
-                boolean worked = Minecraft.getInstance().player.getInventory().add(stack.copy());
+                boolean worked = player.getInventory().add(stack.copy());
                 if (worked) {
                     this.getContainer().setItem(i, ItemStack.EMPTY);
                 }
