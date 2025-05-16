@@ -1,5 +1,7 @@
 package net.rainy.chestmod.screen;
 
+import net.rainy.chestmod.util.ChestUtils;
+
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -65,15 +67,7 @@ public class CustomChestMenu extends ChestMenu {
             ItemStack invStack = player.getInventory().getItem(i);
 
             if (invStack.isEmpty()) continue;
-            for (int j = 0; j < this.getContainer().getContainerSize(); j++) {
-                ItemStack chestStack = this.getContainer().getItem(j);
-
-                if (!chestStack.isEmpty() && chestStack.getItem() == invStack.getItem()) {
-                    int remaining = this.addStack(invStack.copy(), j);
-                    int removeFromInv = invStack.getCount() - remaining;
-                    invStack.shrink(removeFromInv);
-                }
-            }
+            ChestUtils.addIfAlreadyInChest(this.getContainer(), invStack);
         }
     }
 
@@ -94,26 +88,6 @@ public class CustomChestMenu extends ChestMenu {
         }
 
     }
-
-    // returns number of items in stack that don't fit in chest
-    private int addStack(ItemStack stack, int startAt) {
-        for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
-            int index = (i + startAt) % this.getContainer().getContainerSize();
-            ItemStack chestStack = this.getContainer().getItem(index);
-            if (chestStack.isEmpty()) {
-                this.getContainer().setItem(index, stack.copy());
-                return 0;
-            } else if (chestStack.getItem() == stack.getItem()){
-                int maxStackSize = Math.min(chestStack.getMaxStackSize(), this.getContainer().getMaxStackSize());
-                int transferAmount = Math.min(stack.getCount(), maxStackSize - chestStack.getCount());
-                stack.shrink(transferAmount);
-                chestStack.grow(transferAmount);
-            }
-            if (stack.isEmpty()) return 0;
-        }
-        return stack.getCount();
-    }
-
 
     private static Container getContainerFromBuf(FriendlyByteBuf extraData) {
         // Retrieve container position from the packet

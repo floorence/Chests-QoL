@@ -31,7 +31,11 @@ public class PacketHandler {
                 .decoder(SSortPacket::new)
                 .consumerMainThread(SSortPacket::handle)
                 .add();
-
+        INSTANCE.messageBuilder(SQuickStackPacket.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(SQuickStackPacket::encode)
+                .decoder(SQuickStackPacket::new)
+                .consumerMainThread(SQuickStackPacket::handle)
+                .add();
     }
 
     public static void sendToServer(Object msg) {

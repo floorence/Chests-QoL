@@ -14,6 +14,7 @@ import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 import net.rainy.chestmod.network.PacketHandler;
 import net.rainy.chestmod.screen.CustomChestScreen;
+import net.rainy.chestmod.screen.CustomInventoryScreen;
 import net.rainy.chestmod.screen.ModMenuTypes;
 import org.slf4j.Logger;
 

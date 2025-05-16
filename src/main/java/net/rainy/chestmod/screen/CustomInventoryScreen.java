@@ -4,6 +4,8 @@ import net.minecraft.client.gui.components.Button;
 import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Player;
+import net.rainy.chestmod.network.PacketHandler;
+import net.rainy.chestmod.network.SQuickStackPacket;
 
 public class CustomInventoryScreen extends InventoryScreen {
     public CustomInventoryScreen(Player pPlayer) {
@@ -27,6 +29,6 @@ public class CustomInventoryScreen extends InventoryScreen {
     }
 
     private void onQuickStackPressed() {
-        // TODO
+        PacketHandler.sendToServer(new SQuickStackPacket());
     }
 }

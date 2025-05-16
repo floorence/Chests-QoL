@@ -16,7 +16,6 @@ public class ModMenuTypes {
     public static final RegistryObject<MenuType<CustomChestMenu>> CUSTOM_CHEST_MENU =
             MENUS.register("custom_chest_menu", () -> IForgeMenuType.create(CustomChestMenu::new));
 
-
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
     }
