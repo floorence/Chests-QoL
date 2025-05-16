@@ -5,27 +5,23 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraftforge.event.network.CustomPayloadEvent;
 import net.rainy.chestmod.screen.CustomChestMenu;
 
-public class SLootAllPacket {
-    //private final BlockPos pos;
+public class SDepositPacket {
 
-    public SLootAllPacket() {
-        //this.pos = pos;
+    public SDepositPacket() {
     }
 
-    public SLootAllPacket(FriendlyByteBuf buf) {
-        //this(buf.readBlockPos());
+    public SDepositPacket(FriendlyByteBuf buf) {
     }
 
     public void encode(FriendlyByteBuf buf) {
-        //buf.writeBlockPos(this.pos);
     }
 
     public void handle(CustomPayloadEvent.Context context) {
-        //System.out.println("recieved packet");
+        System.out.println("recieved deposit packet");
         ServerPlayer player = context.getSender();
         if (player == null) return;
         if (player.containerMenu instanceof CustomChestMenu menu) {
-            menu.lootAll(player);
+            menu.depositToStacks(player);
         }
     }
 }

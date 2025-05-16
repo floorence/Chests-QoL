@@ -13,6 +13,7 @@ import net.minecraft.resources.ResourceLocation;
 import net.minecraft.world.entity.player.Inventory;
 import net.rainy.chestmod.ChestMod;
 import net.rainy.chestmod.network.PacketHandler;
+import net.rainy.chestmod.network.SDepositPacket;
 import net.rainy.chestmod.network.SLootAllPacket;
 
 public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> {
@@ -31,7 +32,7 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
             this.imageHeight = 166;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
         }
-        this.iconsY = this.imageHeight - 112;
+        this.iconsY = this.imageHeight - 144;
     }
 
     @Override
@@ -60,29 +61,42 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
         int y = (height - imageHeight) / 2;
 
         //TODO: use icons instead of text
+
         this.addRenderableWidget(Button.builder(
-                        Component.literal("Loot"),
-                        button -> onLootAllPressed()
+                        Component.literal("Sort"),
+                        button -> onSortPressed()
                 )
                 .pos(x + 172, y + iconsY)
                 .size(20, 20)
                 .build());
 
         this.addRenderableWidget(Button.builder(
-                        Component.literal("Stack"),
-                        button -> onStackPressed()
+                        Component.literal("Loot"),
+                        button -> onLootAllPressed()
                 )
                 .pos(x + 172, y + iconsY + 32)
                 .size(20, 20)
                 .build());
+
+        this.addRenderableWidget(Button.builder(
+                        Component.literal("Deposit"),
+                        button -> onDepositPressed()
+                )
+                .pos(x + 172, y + iconsY + 64)
+                .size(20, 20)
+                .build());
+    }
+
+    private void onSortPressed() {
+
     }
 
     private void onLootAllPressed() {
-        Minecraft.getInstance().player.displayClientMessage(Component.literal("Looted all!"), false);
+        //Minecraft.getInstance().player.displayClientMessage(Component.literal("Looted all!"), false);
         PacketHandler.sendToServer(new SLootAllPacket());
     }
 
-    private void onStackPressed() {
-
+    private void onDepositPressed() {
+        PacketHandler.sendToServer(new SDepositPacket());
     }
 }

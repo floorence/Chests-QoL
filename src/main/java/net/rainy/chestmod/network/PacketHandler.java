@@ -1,6 +1,5 @@
 package net.rainy.chestmod.network;
 
-import com.jcraft.jogg.Packet;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.network.ChannelBuilder;
 import net.minecraftforge.network.NetworkDirection;
@@ -21,6 +20,11 @@ public class PacketHandler {
                 .encoder(SLootAllPacket::encode)
                 .decoder(SLootAllPacket::new)
                 .consumerMainThread(SLootAllPacket::handle)
+                .add();
+        INSTANCE.messageBuilder(SDepositPacket.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(SDepositPacket::encode)
+                .decoder(SDepositPacket::new)
+                .consumerMainThread(SDepositPacket::handle)
                 .add();
 
     }

@@ -1,6 +1,5 @@
 package net.rainy.chestmod.screen;
 
-
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
@@ -14,7 +13,6 @@ import net.minecraft.world.level.Level;
 import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
-import net.minecraftforge.registries.RegistryObject;
 
 public class CustomChestMenu extends ChestMenu {
     private int numRows;
@@ -37,7 +35,7 @@ public class CustomChestMenu extends ChestMenu {
     public void lootAll(ServerPlayer player) {
         for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
             ItemStack stack = this.getContainer().getItem(i);
-            // TODO: need to handle case where u loot a stack but already have the stack in ur inventory
+
             if (!stack.isEmpty()) {
                 boolean worked = player.getInventory().add(stack.copy());
                 if (worked) {
@@ -46,6 +44,43 @@ public class CustomChestMenu extends ChestMenu {
             }
         }
     }
+
+    public void depositToStacks(ServerPlayer player) {
+        // Skip hotbar (slots 0–8), start from slot 9
+        for (int i = 9; i < player.getInventory().getContainerSize(); i++) {
+            ItemStack invStack = player.getInventory().getItem(i);
+
+            if (invStack.isEmpty()) continue;
+            for (int j = 0; j < this.getContainer().getContainerSize(); j++) {
+                ItemStack chestStack = this.getContainer().getItem(j);
+
+                if (!chestStack.isEmpty() && chestStack.getItem() == invStack.getItem()) {
+                    int remaining = this.addStack(invStack.copy());
+                    int removeFromInv = invStack.getCount() - remaining;
+                    invStack.shrink(removeFromInv);
+                }
+            }
+        }
+    }
+
+    public void sortChest() {
+        
+    }
+
+    // returns number of items in stack that don't fit in chest
+    private int addStack(ItemStack stack) {
+        for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
+            ItemStack chestStack = this.getContainer().getItem(i);
+            if (!chestStack.isEmpty() && chestStack.getItem() != stack.getItem()) continue;
+            int maxStackSize = Math.min(chestStack.getMaxStackSize(), this.getContainer().getMaxStackSize());
+            int transferAmount = Math.min(stack.getCount(), maxStackSize - chestStack.getCount());
+            stack.shrink(transferAmount);
+            chestStack.grow(transferAmount);
+            if (stack.isEmpty()) return 0;
+        }
+        return stack.getCount();
+    }
+
 
     private static Container getContainerFromBuf(FriendlyByteBuf extraData) {
         // Retrieve container position from the packet
