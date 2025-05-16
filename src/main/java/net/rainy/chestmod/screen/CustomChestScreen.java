@@ -15,6 +15,7 @@ import net.rainy.chestmod.ChestMod;
 import net.rainy.chestmod.network.PacketHandler;
 import net.rainy.chestmod.network.SDepositPacket;
 import net.rainy.chestmod.network.SLootAllPacket;
+import net.rainy.chestmod.network.SSortPacket;
 
 public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> {
     private static ResourceLocation TEXTURE;
@@ -88,7 +89,7 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
     }
 
     private void onSortPressed() {
-
+        PacketHandler.sendToServer(new SSortPacket());
     }
 
     private void onLootAllPressed() {

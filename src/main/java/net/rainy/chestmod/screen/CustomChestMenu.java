@@ -5,6 +5,7 @@ import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Item;
 
 import net.minecraft.network.FriendlyByteBuf;
 import net.minecraft.world.entity.player.Inventory;
@@ -14,8 +15,21 @@ import net.minecraft.world.level.block.Block;
 import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+
 public class CustomChestMenu extends ChestMenu {
     private int numRows;
+
+    private final Comparator<ItemStack> itemStackComparator = (a, b) -> {
+        if (a.isEmpty() && b.isEmpty()) return 0;
+        if (a.isEmpty()) return 1;
+        if (b.isEmpty()) return -1;
+
+        // Compare by item type
+        return Item.getId(a.getItem()) - Item.getId(b.getItem());
+    };
 
     public CustomChestMenu(int pContainerId, Inventory inv, FriendlyByteBuf extraData) {
         this(pContainerId, inv, getContainerFromBuf(extraData));
@@ -55,7 +69,7 @@ public class CustomChestMenu extends ChestMenu {
                 ItemStack chestStack = this.getContainer().getItem(j);
 
                 if (!chestStack.isEmpty() && chestStack.getItem() == invStack.getItem()) {
-                    int remaining = this.addStack(invStack.copy());
+                    int remaining = this.addStack(invStack.copy(), j);
                     int removeFromInv = invStack.getCount() - remaining;
                     invStack.shrink(removeFromInv);
                 }
@@ -64,18 +78,37 @@ public class CustomChestMenu extends ChestMenu {
     }
 
     public void sortChest() {
-        
+        List<ItemStack> stacks = new ArrayList<>();
+
+        // Pull from chest
+        for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
+            stacks.add(this.getContainer().getItem(i));
+        }
+
+        // Sort
+        stacks.sort(itemStackComparator);
+
+        // Put back
+        for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
+            this.getContainer().setItem(i, i < stacks.size() ? stacks.get(i) : ItemStack.EMPTY);
+        }
+
     }
 
     // returns number of items in stack that don't fit in chest
-    private int addStack(ItemStack stack) {
+    private int addStack(ItemStack stack, int startAt) {
         for (int i = 0; i < this.getContainer().getContainerSize(); i++) {
-            ItemStack chestStack = this.getContainer().getItem(i);
-            if (!chestStack.isEmpty() && chestStack.getItem() != stack.getItem()) continue;
-            int maxStackSize = Math.min(chestStack.getMaxStackSize(), this.getContainer().getMaxStackSize());
-            int transferAmount = Math.min(stack.getCount(), maxStackSize - chestStack.getCount());
-            stack.shrink(transferAmount);
-            chestStack.grow(transferAmount);
+            int index = (i + startAt) % this.getContainer().getContainerSize();
+            ItemStack chestStack = this.getContainer().getItem(index);
+            if (chestStack.isEmpty()) {
+                this.getContainer().setItem(index, stack.copy());
+                return 0;
+            } else if (chestStack.getItem() == stack.getItem()){
+                int maxStackSize = Math.min(chestStack.getMaxStackSize(), this.getContainer().getMaxStackSize());
+                int transferAmount = Math.min(stack.getCount(), maxStackSize - chestStack.getCount());
+                stack.shrink(transferAmount);
+                chestStack.grow(transferAmount);
+            }
             if (stack.isEmpty()) return 0;
         }
         return stack.getCount();

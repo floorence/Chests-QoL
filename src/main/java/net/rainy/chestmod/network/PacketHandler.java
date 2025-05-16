@@ -26,6 +26,11 @@ public class PacketHandler {
                 .decoder(SDepositPacket::new)
                 .consumerMainThread(SDepositPacket::handle)
                 .add();
+        INSTANCE.messageBuilder(SSortPacket.class, NetworkDirection.PLAY_TO_SERVER)
+                .encoder(SSortPacket::encode)
+                .decoder(SSortPacket::new)
+                .consumerMainThread(SSortPacket::handle)
+                .add();
 
     }
 
