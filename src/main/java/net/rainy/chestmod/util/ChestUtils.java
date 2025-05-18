@@ -1,7 +1,16 @@
 package net.rainy.chestmod.util;
 
+import net.minecraft.core.BlockPos;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.Container;
+import net.minecraft.world.level.Level;
+import net.minecraft.world.level.block.Block;
+import net.minecraft.world.level.block.ChestBlock;
+import net.minecraft.world.level.block.entity.BaseContainerBlockEntity;
+import net.minecraft.world.level.block.entity.BlockEntity;
+import net.minecraft.world.level.block.entity.ChestBlockEntity;
+import net.minecraftforge.event.network.CustomPayloadEvent;
 
 public class ChestUtils {
     // returns number of items in stack that don't fit in chest
@@ -35,5 +44,20 @@ public class ChestUtils {
                 return;
             }
         }
+    }
+
+    public static Container getContainerFromContext(ServerPlayer player, BlockPos containerPos) {
+        Level level = player.level();
+        if (!level.isLoaded(containerPos)) return null;
+
+        BlockEntity blockEntity = level.getBlockEntity(containerPos);
+        if (blockEntity instanceof Container container) {
+            if (blockEntity instanceof ChestBlockEntity) {
+                Block block = level.getBlockState(containerPos).getBlock();
+                container = ChestBlock.getContainer((ChestBlock) block, blockEntity.getBlockState(), level, containerPos, true);
+            }
+            return container;
+        }
+        return null;
     }
 }

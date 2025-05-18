@@ -3,6 +3,7 @@ package net.rainy.chestmod;
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
 import net.minecraft.resources.ResourceLocation;
+import net.minecraft.world.inventory.ChestMenu;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -62,7 +63,7 @@ public class ChestMod {
         @SubscribeEvent
         public static void onClientSetup(FMLClientSetupEvent event) {
             // Some client setup code
-            MenuScreens.register(ModMenuTypes.CUSTOM_CHEST_MENU.get(), CustomChestScreen::new);
+            //MenuScreens.register(ChestMenu.class, CustomChestScreen::new);
         }
     }
 }

@@ -13,8 +13,8 @@ public class ModMenuTypes {
     public static final DeferredRegister<MenuType<?>> MENUS =
             DeferredRegister.create(Registries.MENU, ChestMod.MOD_ID);
 
-    public static final RegistryObject<MenuType<CustomChestMenu>> CUSTOM_CHEST_MENU =
-            MENUS.register("custom_chest_menu", () -> IForgeMenuType.create(CustomChestMenu::new));
+//    public static final RegistryObject<MenuType<CustomChestMenu>> CUSTOM_CHEST_MENU =
+//            MENUS.register("custom_chest_menu", () -> IForgeMenuType.create(CustomChestMenu::new));
 
     public static void register(IEventBus eventBus) {
         MENUS.register(eventBus);
