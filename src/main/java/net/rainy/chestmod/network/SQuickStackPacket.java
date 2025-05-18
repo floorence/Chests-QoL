@@ -44,8 +44,10 @@ public class SQuickStackPacket {
                 Block block = level.getBlockState(pos).getBlock();
                 BlockEntity be = level.getBlockEntity(pos);
 
-                if (be instanceof ChestBlockEntity chestBlockEntity) {
-                    Container container = ChestBlock.getContainer((ChestBlock) block, chestBlockEntity.getBlockState(), level, pos, true);
+                if (be instanceof Container container) {
+                    if (be instanceof ChestBlockEntity) {
+                        container = ChestBlock.getContainer((ChestBlock) block, be.getBlockState(), level, pos, true);
+                    }
                     if (container == null) {
                         System.out.println("container is null");
                         continue;

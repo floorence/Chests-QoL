@@ -27,12 +27,12 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
         this.imageWidth = 197;
         if (menu.isDoubleChest()) {
             this.imageHeight = 221;
-            this.inventoryLabelY = this.imageHeight - 94;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest_large.png");
         } else {
             this.imageHeight = 167;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
         }
+        this.inventoryLabelY = this.imageHeight - 94;
         this.iconsY = this.imageHeight - 137;
     }
 

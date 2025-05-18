@@ -30,7 +30,7 @@ public class IconButton extends Button {
 
     @Override
     protected void renderWidget(GuiGraphics guiGraphics, int mouseX, int mouseY, float partialTick) {
-        int vOffset = isHoveredOrFocused() ? texH : 0;
+        int vOffset = isHovered() ? texH : 0;
         guiGraphics.blit(RenderType::guiTextured, texture, getX(), getY(), texU, texV + vOffset, texW, texH, textureWidth, textureHeight);
     }
 }
