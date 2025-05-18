@@ -1,7 +1,5 @@
 package net.rainy.chestmod.event;
 
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
 import net.minecraft.core.BlockPos;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.Container;
@@ -11,7 +9,6 @@ import net.minecraft.world.level.block.ChestBlock;
 import net.minecraft.world.level.block.entity.BlockEntity;
 import net.minecraft.world.level.block.entity.ChestBlockEntity;
 import net.minecraft.world.level.block.state.BlockState;
-import net.minecraftforge.client.event.ScreenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.rainy.chestmod.ChestMod;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
@@ -19,7 +16,6 @@ import net.minecraft.world.entity.player.Player;
 import net.minecraft.network.chat.Component;
 import net.minecraftforge.fml.common.Mod;
 import net.rainy.chestmod.screen.CustomChestMenu;
-import net.rainy.chestmod.screen.CustomInventoryScreen;
 
 @Mod.EventBusSubscriber(modid = ChestMod.MOD_ID, bus = Mod.EventBusSubscriber.Bus.FORGE)
 public class ModEvents {
@@ -48,17 +44,6 @@ public class ModEvents {
                         Component.literal("Chest")
                 ), pos);
             }
-        }
-    }
-
-    @SubscribeEvent
-    public static void onInventoryOpen(ScreenEvent.Opening event) {
-        if (event.getScreen() instanceof InventoryScreen invScreen) {
-            // Cancel the vanilla screen opening
-            event.setCanceled(true);
-
-            // Open your custom screen instead
-            Minecraft.getInstance().setScreen(new CustomInventoryScreen(Minecraft.getInstance().player));
         }
     }
 }

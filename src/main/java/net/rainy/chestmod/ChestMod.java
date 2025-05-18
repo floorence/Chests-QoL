@@ -2,6 +2,7 @@ package net.rainy.chestmod;
 
 import com.mojang.logging.LogUtils;
 import net.minecraft.client.gui.screens.MenuScreens;
+import net.minecraft.resources.ResourceLocation;
 import net.minecraftforge.api.distmarker.Dist;
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.event.server.ServerStartingEvent;
@@ -25,6 +26,8 @@ public class ChestMod {
     public static final String MOD_ID = "chestmod";
     // Directly reference a slf4j logger
     public static final Logger LOGGER = LogUtils.getLogger();
+
+    public static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/icons.png");
 
     public ChestMod(FMLJavaModLoadingContext context) {
         IEventBus modEventBus = context.getModEventBus();

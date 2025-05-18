@@ -25,7 +25,7 @@ public class SQuickStackPacket {
     }
 
     public void handle(CustomPayloadEvent.Context context) {
-        System.out.println("recieved stack packet");
+       // System.out.println("recieved stack packet");
         ServerPlayer player = context.getSender();
 
         if (player == null) return;
@@ -34,7 +34,7 @@ public class SQuickStackPacket {
         BlockPos playerPos = player.blockPosition();
         int radius = 6;
 
-        for (int i = 0; i < player.getInventory().getContainerSize(); i++) {
+        for (int i = 9; i < player.getInventory().getContainerSize(); i++) {
             ItemStack stack = player.getInventory().getItem(i);
             if (stack.isEmpty()) continue;
             for (BlockPos pos : BlockPos.betweenClosed(

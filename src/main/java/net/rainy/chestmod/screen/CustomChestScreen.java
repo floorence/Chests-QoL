@@ -16,10 +16,10 @@ import net.rainy.chestmod.network.PacketHandler;
 import net.rainy.chestmod.network.SDepositPacket;
 import net.rainy.chestmod.network.SLootAllPacket;
 import net.rainy.chestmod.network.SSortPacket;
+import net.rainy.chestmod.util.IconButton;
 
 public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> {
     private static ResourceLocation TEXTURE;
-    private static final ResourceLocation ICONS = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/icons.png");
     private int iconsY;
 
     public CustomChestScreen(CustomChestMenu menu, Inventory playerInventory, Component title) {
@@ -30,10 +30,10 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
             this.inventoryLabelY = this.imageHeight - 94;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest_large.png");
         } else {
-            this.imageHeight = 166;
+            this.imageHeight = 167;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
         }
-        this.iconsY = this.imageHeight - 144;
+        this.iconsY = this.imageHeight - 137;
     }
 
     @Override
@@ -63,29 +63,38 @@ public class CustomChestScreen extends AbstractContainerScreen<CustomChestMenu> 
 
         //TODO: use icons instead of text
 
-        this.addRenderableWidget(Button.builder(
-                        Component.literal("Sort"),
-                        button -> onSortPressed()
-                )
-                .pos(x + 172, y + iconsY)
-                .size(20, 20)
-                .build());
+        this.addRenderableWidget(new IconButton(
+                x + 172, y + iconsY,
+                20, 20,                  // size of button
+                0, 0,                    // texU, texV — top-left of your icon on the sheet
+                20, 20,                  // width & height of icon
+                ChestMod.ICONS,
+                256, 256,                // total texture size
+                button -> onSortPressed(),
+                Component.literal("Sort")  // tooltip
+        ));
 
-        this.addRenderableWidget(Button.builder(
-                        Component.literal("Loot"),
-                        button -> onLootAllPressed()
-                )
-                .pos(x + 172, y + iconsY + 32)
-                .size(20, 20)
-                .build());
+        this.addRenderableWidget(new IconButton(
+                x + 172, y + iconsY + 22,
+                20, 20,                  // size of button
+                20, 0,                    // texU, texV — top-left of your icon on the sheet
+                20, 20,                  // width & height of icon
+                ChestMod.ICONS,
+                256, 256,                // total texture size
+                button -> onLootAllPressed(),
+                Component.literal("Loot All")  // tooltip
+        ));
 
-        this.addRenderableWidget(Button.builder(
-                        Component.literal("Deposit"),
-                        button -> onDepositPressed()
-                )
-                .pos(x + 172, y + iconsY + 64)
-                .size(20, 20)
-                .build());
+        this.addRenderableWidget(new IconButton(
+                x + 172, y + iconsY + 56,
+                20, 20,                  // size of button
+                40, 0,                    // texU, texV — top-left of your icon on the sheet
+                20, 20,                  // width & height of icon
+                ChestMod.ICONS,
+                256, 256,                // total texture size
+                button -> onDepositPressed(),
+                Component.literal("Deposit to existing stacks")  // tooltip
+        ));
     }
 
     private void onSortPressed() {

@@ -32,6 +32,7 @@ public class ChestUtils {
                 int remaining = addStack(chest, stack.copy(), j);
                 int removeFromInv = stack.getCount() - remaining;
                 stack.shrink(removeFromInv);
+                return;
             }
         }
     }
