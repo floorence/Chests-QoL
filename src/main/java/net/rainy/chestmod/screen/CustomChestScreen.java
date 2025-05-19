@@ -24,16 +24,13 @@ public class CustomChestScreen extends AbstractCustomScreen {
 
     public CustomChestScreen(ChestMenu menu, Inventory playerInventory, Component title, BlockPos pos) {
         super(menu, playerInventory, title, pos);
-        this.imageWidth = 198;
-
         if (menu.getRowCount() == 6) { // double chest
             this.imageHeight = 221;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest_large.png");
         } else {
-            //this.imageHeight = 167;
             TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
         }
-        this.inventoryLabelY = this.imageHeight - 94;
-        this.iconsY = this.imageHeight - 137;
+        this.inventoryLabelY = this.imageHeight - 93;
+        this.iconsY = this.imageHeight - 138;
     }
 }

@@ -11,10 +11,8 @@ import net.rainy.chestmod.ChestMod;
 public class CustomShulkerScreen extends AbstractCustomScreen {
     public CustomShulkerScreen(ShulkerBoxMenu menu, Inventory playerInventory, Component title, BlockPos pos) {
         super(menu, playerInventory, title, pos);
-        TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
-        this.imageWidth = 198;
-        //this.imageHeight = 167;
-        this.inventoryLabelY = this.imageHeight - 94;
-        this.iconsY = this.imageHeight - 137;
+        TEXTURE = ResourceLocation.fromNamespaceAndPath(ChestMod.MOD_ID, "textures/gui/custom_shulker_box.png");
+        this.inventoryLabelY = this.imageHeight - 93;
+        this.iconsY = this.imageHeight - 138;
     }
 }

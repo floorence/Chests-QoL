@@ -24,7 +24,7 @@ public class CustomInventoryScreen extends InventoryScreen {
         int y = (height - imageHeight) / 2;
 
         this.addRenderableWidget(new IconButton(
-                x + 150, y + 62,
+                x + 150, y + 60,
                 20, 20,                  // size of button
                 60, 0,                    // texU, texV — top-left of your icon on the sheet
                 20, 20,                  // width & height of icon

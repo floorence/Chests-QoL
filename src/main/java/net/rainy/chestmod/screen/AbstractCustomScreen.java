@@ -24,6 +24,7 @@ public abstract class AbstractCustomScreen extends AbstractContainerScreen<Abstr
     public AbstractCustomScreen(AbstractContainerMenu menu, Inventory inventory, Component component, BlockPos pos) {
         super(menu, inventory, component);
         this.pos = pos;
+        this.imageWidth = 198;
     }
 
     @Override

@@ -51,14 +51,10 @@ public class ModEvents {
     @SubscribeEvent
     public static void onScreenOpened(ScreenEvent.Opening event) {
         Screen screen = event.getScreen();
-        System.out.println("1");
         if (screen instanceof ContainerScreen || screen instanceof ShulkerBoxScreen) {
-            System.out.println("2");
             AbstractContainerMenu menu = ((AbstractContainerScreen<AbstractContainerMenu>) screen).getMenu();
             Inventory playerInventory = Minecraft.getInstance().player.getInventory();
             Component title = screen.getTitle();
-            //Minecraft.getInstance().player.displayClientMessage(Component.literal("opened chest 2"), false);
-            System.out.println("3");
             if (lastChestInteractionPos == null) return;
 
             Screen customScreen = null;
@@ -68,7 +64,6 @@ public class ModEvents {
                 customScreen = new CustomShulkerScreen(shulkerBoxMenu, playerInventory, title, lastChestInteractionPos);
             }
 
-            System.out.println("4");
             if (customScreen == null) return;
 
             event.setCanceled(true);
