@@ -97,4 +97,10 @@ public abstract class AbstractCustomScreen extends AbstractContainerScreen<Abstr
     private void onDepositPressed() {
         PacketHandler.sendToServer(new SDepositPacket(pos));
     }
+
+    @Override
+    public void render(GuiGraphics guiGraphics, int mouseX, int mouseY, float delta) {
+        super.render(guiGraphics, mouseX, mouseY, delta);
+        renderTooltip(guiGraphics, mouseX, mouseY);
+    }
 }

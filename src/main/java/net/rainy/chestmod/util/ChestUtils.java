@@ -22,7 +22,7 @@ public class ChestUtils {
             if (chestStack.isEmpty()) {
                 chest.setItem(index, stack.copy());
                 return 0;
-            } else if (chestStack.getItem() == stack.getItem()){
+            } else if (ItemStack.isSameItemSameComponents(chestStack, stack)) {
                 int maxStackSize = Math.min(chestStack.getMaxStackSize(), chest.getMaxStackSize());
                 int transferAmount = Math.min(stack.getCount(), maxStackSize - chestStack.getCount());
                 stack.shrink(transferAmount);
@@ -37,7 +37,7 @@ public class ChestUtils {
         for (int j = 0; j < chest.getContainerSize(); j++) {
             ItemStack chestStack = chest.getItem(j);
 
-            if (!chestStack.isEmpty() && chestStack.getItem() == stack.getItem()) {
+            if (!chestStack.isEmpty() && ItemStack.isSameItemSameComponents(chestStack, stack)) {
                 int remaining = addStack(chest, stack.copy(), j);
                 int removeFromInv = stack.getCount() - remaining;
                 stack.shrink(removeFromInv);
