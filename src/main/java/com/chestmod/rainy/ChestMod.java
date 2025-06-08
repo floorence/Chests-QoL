@@ -2,8 +2,11 @@ package com.chestmod.rainy;
 
 
 import com.chestmod.rainy.event.EventHandler;
+import com.chestmod.rainy.network.PacketHandler;
+import com.chestmod.rainy.proxy.CommonProxy;
 import net.minecraft.init.Blocks;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import org.apache.logging.log4j.Logger;
@@ -14,10 +17,17 @@ public class ChestMod {
     public static final String NAME = "Chests QoL";
     public static final String VERSION = "1.0";
 
+    public static final String CLIENT_PROXY_CLASS = "com.chestmod.rainy.proxy.ClientProxy";
+    public static final String COMMON_PROXY_CLASS = "com.chestmod.rainy.proxy.CommonProxy";
+
+    @SidedProxy(clientSide = CLIENT_PROXY_CLASS, serverSide = COMMON_PROXY_CLASS)
+    public static CommonProxy proxy;
+
     @Mod.EventHandler
     public void preInit(FMLPreInitializationEvent event)
     {
         EventHandler.registerEvents();
+        PacketHandler.registerPackets();
     }
 
     @Mod.EventHandler
