@@ -5,6 +5,7 @@ import com.chestmod.rainy.event.EventHandler;
 import com.chestmod.rainy.network.PacketHandler;
 import com.chestmod.rainy.proxy.CommonProxy;
 import net.minecraft.init.Blocks;
+import net.minecraft.util.ResourceLocation;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
@@ -16,6 +17,8 @@ public class ChestMod {
     public static final String MOD_ID = "chestmod";
     public static final String NAME = "Chests QoL";
     public static final String VERSION = "1.0";
+
+    public static final ResourceLocation ICONS = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/icons.png");
 
     public static final String CLIENT_PROXY_CLASS = "com.chestmod.rainy.proxy.ClientProxy";
     public static final String COMMON_PROXY_CLASS = "com.chestmod.rainy.proxy.CommonProxy";

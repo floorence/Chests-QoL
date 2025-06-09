@@ -54,16 +54,11 @@ public class ScreenOpenEvent {
 
             if (container instanceof ContainerChest) {
                 ContainerChest chest = (ContainerChest) container;
+                EntityPlayer player = Minecraft.getMinecraft().player;
 
-                IInventory upper = ChestUtils.getPrivateInventory(chest, "upperChestInventory");
-                IInventory lower = ChestUtils.getPrivateInventory(chest, "lowerChestInventory");
-
-                if (upper != null && lower != null) {
-                    EntityPlayer player = Minecraft.getMinecraft().player;
-                    event.setGui(new CustomChestGui(upper, lower, player, lastChestInteractionPos));
-                } else {
-                    System.err.println("Failed to get chest inventories");
-                }
+                IInventory playerInv = player.inventory;
+                IInventory chestInv = chest.getLowerChestInventory();
+                event.setGui(new CustomChestGui(playerInv, chestInv, player, lastChestInteractionPos));
             }
             lastChestInteractionPos = null;
         }

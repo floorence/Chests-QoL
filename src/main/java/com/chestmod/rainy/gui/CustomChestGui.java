@@ -17,7 +17,7 @@ public class CustomChestGui extends AbstractCustomGui {
 //            this.ySize = 221;
 //            TEXTURE = new ResourceLocation(ChestMod.MOD_ID + "textures/gui/custom_chest_large.png");
 //        } else {
-        TEXTURE = new ResourceLocation(ChestMod.MOD_ID + "textures/gui/custom_chest.png");
+        TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "gui/custom_chest.png");
         //}
         //this.inventoryLabelY = this.imageHeight - 93;
         this.iconsY = this.ySize - 138;
