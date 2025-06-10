@@ -2,6 +2,8 @@ package com.chestmod.rainy.gui;
 
 import com.chestmod.rainy.ChestMod;
 
+import com.chestmod.rainy.network.PacketHandler;
+import com.chestmod.rainy.network.SLootAllPacket;
 import com.chestmod.rainy.util.IconButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -13,6 +15,7 @@ import net.minecraft.util.math.BlockPos;
 public abstract class AbstractCustomGui extends GuiContainer {
     protected static ResourceLocation TEXTURE;
     protected int iconsY;
+    protected String title;
     protected BlockPos pos;
 
     public AbstractCustomGui(Container container, BlockPos pos) {
@@ -26,6 +29,21 @@ public abstract class AbstractCustomGui extends GuiContainer {
         GlStateManager.color(1.0f, 1.0f, 1.0f);
         this.mc.getTextureManager().bindTexture(TEXTURE);
         this.drawTexturedModalRect(this.guiLeft, this.guiTop, 0, 0, this.xSize, this.ySize);
+    }
+
+    @Override
+    public void drawScreen(int mouseX, int mouseY, float partialTicks)
+    {
+        this.drawDefaultBackground();
+        super.drawScreen(mouseX, mouseY, partialTicks);
+        this.renderHoveredToolTip(mouseX, mouseY);
+    }
+
+    @Override
+    protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
+    {
+        this.fontRenderer.drawString(title, 8, 6, 4210752);
+        this.fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
     }
 
     @Override
@@ -82,7 +100,7 @@ public abstract class AbstractCustomGui extends GuiContainer {
 
     private void onSortPressed() {}
     private void onLootAllPressed() {
-        System.out.println("onLootAllPressed");
+        PacketHandler.network.sendToServer(new SLootAllPacket(pos));
     }
     private void onDepositPressed() {}
 

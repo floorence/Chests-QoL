@@ -27,8 +27,8 @@ public class IconButton extends GuiButton {
             mc.getTextureManager().bindTexture(texture);
             GlStateManager.color(1.0F, 1.0F, 1.0F, 1.0F);
             this.hovered = mouseX >= this.x && mouseY >= this.y && mouseX < this.x + this.width && mouseY < this.y + this.height;
-            int hoverOffset = this.getHoverState(this.hovered);
-            drawTexturedModalRect(this.x, this.y, texU, texV, this.width, this.height);
+            int vOffset = this.hovered ? this.height : 0;
+            drawTexturedModalRect(this.x, this.y, texU, texV + vOffset, this.width, this.height);
         }
     }
 
