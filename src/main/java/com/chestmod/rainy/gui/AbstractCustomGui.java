@@ -3,7 +3,9 @@ package com.chestmod.rainy.gui;
 import com.chestmod.rainy.ChestMod;
 
 import com.chestmod.rainy.network.PacketHandler;
+import com.chestmod.rainy.network.SDepositPacket;
 import com.chestmod.rainy.network.SLootAllPacket;
+import com.chestmod.rainy.network.SSortPacket;
 import com.chestmod.rainy.util.IconButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
@@ -11,7 +13,12 @@ import net.minecraft.client.renderer.GlStateManager;
 import net.minecraft.inventory.Container;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+import java.io.IOException;
+
+@SideOnly(Side.CLIENT)
 public abstract class AbstractCustomGui extends GuiContainer {
     protected static ResourceLocation TEXTURE;
     protected int iconsY;
@@ -82,7 +89,8 @@ public abstract class AbstractCustomGui extends GuiContainer {
     }
 
     @Override
-    protected void actionPerformed(GuiButton button) {
+    protected void actionPerformed(GuiButton button) throws IOException {
+        super.actionPerformed(button);
         if (button instanceof IconButton) {
             switch (button.id) {
                 case 0:
@@ -98,10 +106,14 @@ public abstract class AbstractCustomGui extends GuiContainer {
         }
     }
 
-    private void onSortPressed() {}
+    private void onSortPressed() {
+        PacketHandler.network.sendToServer(new SSortPacket(pos));
+    }
     private void onLootAllPressed() {
         PacketHandler.network.sendToServer(new SLootAllPacket(pos));
     }
-    private void onDepositPressed() {}
+    private void onDepositPressed() {
+        PacketHandler.network.sendToServer(new SDepositPacket(pos));
+    }
 
 }

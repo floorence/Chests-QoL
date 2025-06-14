@@ -9,7 +9,10 @@ import net.minecraft.inventory.ContainerChest;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.ResourceLocation;
 import net.minecraft.util.math.BlockPos;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
+@SideOnly(Side.CLIENT)
 public class CustomChestGui extends AbstractCustomGui {
     public CustomChestGui(IInventory upper, IInventory lower, EntityPlayer player, BlockPos pos) {
         super(new ContainerChest(upper, lower, player), pos);
@@ -20,6 +23,7 @@ public class CustomChestGui extends AbstractCustomGui {
         TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
         //}
         //this.inventoryLabelY = this.imageHeight - 93;
+        this.title = "Chest";
         this.iconsY = this.ySize - 138;
     }
 }
