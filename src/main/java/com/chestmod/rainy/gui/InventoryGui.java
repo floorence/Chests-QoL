@@ -1,6 +1,9 @@
 package com.chestmod.rainy.gui;
 
 import com.chestmod.rainy.ChestMod;
+import com.chestmod.rainy.network.PacketHandler;
+import com.chestmod.rainy.network.SQuickStackPacket;
+import com.chestmod.rainy.network.SSortPacket;
 import com.chestmod.rainy.util.IconButton;
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiInventory;
@@ -44,6 +47,6 @@ public class InventoryGui extends GuiInventory {
     }
 
     private void onQuickStackPressed() {
-
+        PacketHandler.network.sendToServer(new SQuickStackPacket());
     }
 }

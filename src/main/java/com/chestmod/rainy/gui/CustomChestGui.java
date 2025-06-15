@@ -16,14 +16,15 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CustomChestGui extends AbstractCustomGui {
     public CustomChestGui(IInventory upper, IInventory lower, EntityPlayer player, BlockPos pos) {
         super(new ContainerChest(upper, lower, player), pos);
-//        if (container.() == 6) { // double chest
-//            this.ySize = 221;
-//            TEXTURE = new ResourceLocation(ChestMod.MOD_ID + "textures/gui/custom_chest_large.png");
-//        } else {
-        TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
-        //}
-        //this.inventoryLabelY = this.imageHeight - 93;
-        this.title = "Chest";
+        if (lower.getSizeInventory() / 9 == 6) { // double chest
+            this.ySize = 221;
+            TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_chest_large.png");
+            this.title = "Large Chest";
+        } else {
+            TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
+            this.title = "Chest";
+        }
+        this.inventoryLabelY = this.ySize - 93;
         this.iconsY = this.ySize - 138;
     }
 }

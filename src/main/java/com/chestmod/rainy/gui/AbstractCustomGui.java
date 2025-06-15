@@ -22,6 +22,7 @@ import java.io.IOException;
 public abstract class AbstractCustomGui extends GuiContainer {
     protected static ResourceLocation TEXTURE;
     protected int iconsY;
+    protected int inventoryLabelY;
     protected String title;
     protected BlockPos pos;
 
@@ -50,7 +51,7 @@ public abstract class AbstractCustomGui extends GuiContainer {
     protected void drawGuiContainerForegroundLayer(int mouseX, int mouseY)
     {
         this.fontRenderer.drawString(title, 8, 6, 4210752);
-        this.fontRenderer.drawString("Inventory", 8, this.ySize - 96 + 2, 4210752);
+        this.fontRenderer.drawString("Inventory", 8, this.inventoryLabelY, 4210752);
     }
 
     @Override

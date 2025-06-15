@@ -1,6 +1,7 @@
 package com.chestmod.rainy.event;
 
 import com.chestmod.rainy.gui.CustomChestGui;
+import com.chestmod.rainy.gui.CustomShulkerGui;
 import com.chestmod.rainy.util.ChestUtils;
 
 import net.minecraft.block.Block;
@@ -15,6 +16,7 @@ import net.minecraft.client.gui.inventory.GuiShulkerBox;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerChest;
+import net.minecraft.inventory.ContainerShulkerBox;
 import net.minecraft.inventory.IInventory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
@@ -46,19 +48,23 @@ public class ScreenOpenEvent {
     @SubscribeEvent
     public static void onScreenOpened(GuiOpenEvent event) {
         GuiScreen screen = event.getGui();
-        if (screen instanceof GuiChest) {
+        if (screen instanceof GuiChest || screen instanceof GuiShulkerBox) {
             GuiContainer guiContainer = (GuiContainer) screen;
             Container container = guiContainer.inventorySlots;
 
             if (lastChestInteractionPos == null) return;
 
+            EntityPlayer player = Minecraft.getMinecraft().player;
+
             if (container instanceof ContainerChest) {
                 ContainerChest chest = (ContainerChest) container;
-                EntityPlayer player = Minecraft.getMinecraft().player;
-
                 IInventory playerInv = player.inventory;
                 IInventory chestInv = chest.getLowerChestInventory();
                 event.setGui(new CustomChestGui(playerInv, chestInv, player, lastChestInteractionPos));
+            } else if (container instanceof ContainerShulkerBox) {
+                ContainerShulkerBox shulkerBox = (ContainerShulkerBox) container;
+                IInventory shulkerInv = ChestUtils.getPrivateInventory(shulkerBox, "inventory");
+                event.setGui(new CustomShulkerGui(shulkerInv, player, lastChestInteractionPos));
             }
             lastChestInteractionPos = null;
         }

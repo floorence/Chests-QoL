@@ -12,6 +12,6 @@ public class PacketHandler {
         network.registerMessage(SLootAllPacket.Handler.class, SLootAllPacket.class, 0, Side.SERVER);
         network.registerMessage(SDepositPacket.Handler.class, SDepositPacket.class, 1, Side.SERVER);
         network.registerMessage(SSortPacket.Handler.class, SSortPacket.class, 2, Side.SERVER);
-
+        network.registerMessage(SQuickStackPacket.Handler.class, SQuickStackPacket.class, 3, Side.SERVER);
     }
 }
