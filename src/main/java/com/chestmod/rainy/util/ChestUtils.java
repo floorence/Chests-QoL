@@ -1,6 +1,8 @@
 package com.chestmod.rainy.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
+import net.minecraft.block.BlockContainer;
+import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
@@ -20,6 +22,7 @@ public class ChestUtils {
     private static boolean canStacksMerge(ItemStack stack1, ItemStack stack2) {
         return stack1.isStackable() && stack2.isStackable() &&
                 stack1.getItem() == stack2.getItem() &&
+                stack1.getItemDamage() == stack2.getItemDamage() &&
                 ItemStack.areItemStackTagsEqual(stack1, stack2);
     }
 
@@ -61,15 +64,19 @@ public class ChestUtils {
         IBlockState state = world.getBlockState(pos);
         Block block = state.getBlock();
 
-        if (block instanceof BlockChest) {
-            TileEntity te = world.getTileEntity(pos);
-            if (!(te instanceof TileEntityChest)) return null;
+        TileEntity te = world.getTileEntity(pos);
 
+        if (block instanceof BlockChest && te instanceof TileEntityChest) {
             return ((BlockChest) block).getContainer(world, pos, true);
+        }
+
+        if (te instanceof IInventory) {
+            return (IInventory) te;
         }
 
         return null;
     }
+
 
     public static IInventory getPrivateInventory(Object container, String fieldName) {
         try {

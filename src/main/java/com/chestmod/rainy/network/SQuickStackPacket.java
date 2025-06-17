@@ -46,7 +46,6 @@ public class SQuickStackPacket implements IMessage {
         }
 
         private void quickStack(EntityPlayerMP player) {
-            World world = player.world;
             int radius = 6;
 
             for (int i = 9; i < player.inventory.getSizeInventory(); i++) {
@@ -57,11 +56,8 @@ public class SQuickStackPacket implements IMessage {
                         new BlockPos(player.posX + radius, player.posY + radius, player.posZ + radius))) {
 
                     IInventory chestInv = ChestUtils.getInventoryFromContext(player, pos);
-                    if (chestInv == null) {
-                        System.out.println("chestInv null");
-                        continue;
-                    }
-                    ChestUtils.addIfAlreadyInChest(chestInv, stack);
+                    if (chestInv != null)
+                        ChestUtils.addIfAlreadyInChest(chestInv, stack);
                 }
             }
         }

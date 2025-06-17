@@ -13,7 +13,7 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 public class CustomShulkerGui extends AbstractCustomGui{
     public CustomShulkerGui(IInventory shulkerInv, EntityPlayer player, BlockPos pos) {
         super(new ContainerShulkerBox(player.inventory, shulkerInv, player), pos);
-        TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_chest.png");
+        TEXTURE = new ResourceLocation(ChestMod.MOD_ID, "textures/gui/custom_shulker_box.png");
         this.title = "Shulker Box";
 
         this.inventoryLabelY = this.ySize - 93;
