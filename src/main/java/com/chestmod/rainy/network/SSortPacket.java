@@ -50,7 +50,7 @@ public class SSortPacket implements IMessage {
         }
 
         private void handle(SSortPacket message, MessageContext ctx) {
-            System.out.println("Received packet");
+            //System.out.println("Received packet");
             EntityPlayerMP player = ctx.getServerHandler().player;
 
             if (player == null) return;

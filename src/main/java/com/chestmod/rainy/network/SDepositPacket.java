@@ -45,7 +45,7 @@ public class SDepositPacket implements IMessage {
         }
 
         private void handle(SDepositPacket message, MessageContext ctx) {
-            System.out.println("Received packet");
+            //System.out.println("Received packet");
             EntityPlayerMP player = ctx.getServerHandler().player;
 
             if (player == null) return;

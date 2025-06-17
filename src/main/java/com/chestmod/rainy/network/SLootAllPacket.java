@@ -1,14 +1,11 @@
 package com.chestmod.rainy.network;
 
-import com.chestmod.rainy.ChestMod;
 import com.chestmod.rainy.util.ChestUtils;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.Slot;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.BlockPos;
@@ -49,7 +46,7 @@ public class SLootAllPacket implements IMessage {
         }
 
         private void handle(SLootAllPacket message, MessageContext ctx) {
-            System.out.println("Received packet");
+            //System.out.println("Received packet");
             EntityPlayerMP player = ctx.getServerHandler().player;
 
             if (player == null) return;

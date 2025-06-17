@@ -23,6 +23,7 @@ import net.minecraft.world.World;
 import net.minecraftforge.client.event.GuiOpenEvent;
 import net.minecraftforge.event.entity.player.PlayerInteractEvent;
 import net.minecraftforge.fml.common.Mod;
+import net.minecraftforge.fml.common.ObfuscationReflectionHelper;
 import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
 
 @Mod.EventBusSubscriber
@@ -41,7 +42,7 @@ public class ScreenOpenEvent {
 
         if (block instanceof BlockChest || block instanceof BlockShulkerBox) {
             lastChestInteractionPos = pos;
-            System.out.println("Interacted with a chest or shulker at: " + pos);
+            //System.out.println("Interacted with a chest or shulker at: " + pos);
         }
     }
 
@@ -63,7 +64,10 @@ public class ScreenOpenEvent {
                 event.setGui(new CustomChestGui(playerInv, chestInv, player, lastChestInteractionPos));
             } else if (container instanceof ContainerShulkerBox) {
                 ContainerShulkerBox shulkerBox = (ContainerShulkerBox) container;
-                IInventory shulkerInv = ChestUtils.getPrivateInventory(shulkerBox, "inventory");
+                System.out.println("Container class: " + shulkerBox.getClass().getName());
+                //IInventory shulkerInv = ObfuscationReflectionHelper.getPrivateValue(ContainerShulkerBox.class, shulkerBox, "inventory");
+                //IInventory shulkerInv = ChestUtils.getPrivateInventory(shulkerBox);
+                IInventory shulkerInv = container.getSlot(0).inventory;
                 event.setGui(new CustomShulkerGui(shulkerInv, player, lastChestInteractionPos));
             }
             lastChestInteractionPos = null;

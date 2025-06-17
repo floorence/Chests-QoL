@@ -1,15 +1,10 @@
 package com.chestmod.rainy.util;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockChest;
-import net.minecraft.block.BlockContainer;
-import net.minecraft.block.BlockShulkerBox;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.EntityPlayerMP;
-import net.minecraft.inventory.Container;
 import net.minecraft.inventory.ContainerShulkerBox;
 import net.minecraft.inventory.IInventory;
-import net.minecraft.inventory.ContainerChest;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.tileentity.TileEntityChest;
@@ -78,11 +73,20 @@ public class ChestUtils {
     }
 
 
-    public static IInventory getPrivateInventory(Object container, String fieldName) {
+    public static IInventory getPrivateInventory(Object container) {
         try {
-            Field field = ContainerShulkerBox.class.getDeclaredField(fieldName);
+            Field field = ContainerShulkerBox.class.getDeclaredField("inventory");
             field.setAccessible(true);
             return (IInventory) field.get(container);
+        } catch (NoSuchFieldException e1) {
+            try {
+                Field field = ContainerShulkerBox.class.getDeclaredField("field_145900_a");
+                field.setAccessible(true);
+                return (IInventory) field.get(container);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return null;
+            }
         } catch (Exception e) {
             e.printStackTrace();
             return null;
